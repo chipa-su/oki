@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沖繩五日 自駕手冊｜2026.08.14–18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16324A;        /* 墨藍 */
+  --paper:#FBFAF6;      /* 紙白 */
+  --sea:#128A7E;        /* 金武灣綠 */
+  --sea-deep:#0B5F58;
+  --coral:#DE5B45;      /* 珊瑚 */
+  --sand:#EDE6D6;       /* 砂 */
+  --shallow:#E3F1ED;    /* 淺海 */
+  --mute:#6B7C8A;
+  --c-spot:#128A7E; --c-shop:#4A6FA5; --c-dining:#DE5B45; --c-basic:#7A8794;
+  --serif:'Noto Serif TC',"PMingLiU",serif;
+  --sans:'Noto Sans TC',"Microsoft JhengHei",sans-serif;
+  --mono:'IBM Plex Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;font-size:16px}
+a{color:var(--sea-deep)}
+
+/* ── 封面 ── */
+.cover{position:relative;min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:8vh 24px 12vh;max-width:960px;margin:0 auto;overflow:hidden}
+.cover .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.35em;color:var(--sea-deep);text-transform:uppercase}
+.cover h1{font-family:var(--serif);font-weight:900;font-size:clamp(56px,12vw,120px);line-height:1.05;letter-spacing:.06em;margin:12px 0 4px}
+.cover h1 .en{display:block;font-family:var(--mono);font-weight:600;font-size:clamp(13px,2vw,17px);letter-spacing:.55em;color:var(--mute);margin-top:10px}
+.cover .dates{font-family:var(--serif);font-size:clamp(20px,3.4vw,30px);font-weight:700;color:var(--sea-deep);margin:18px 0 30px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--ink);border:1px solid var(--ink);max-width:760px}
+.facts div{background:var(--paper);padding:14px 16px}
+.facts b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mute);margin-bottom:4px}
+.facts span{font-weight:700;font-size:15px}
+.wavefoot{position:absolute;left:0;right:0;bottom:0;height:90px;opacity:.9;pointer-events:none}
+
+/* ── 波紋分隔 ── */
+.waveband{display:block;width:100%;height:44px;color:var(--sea)}
+
+/* ── 共用容器 ── */
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+section.day{padding:56px 0 40px}
+.dayhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 22px;border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:8px}
+.dayno{font-family:var(--serif);font-weight:900;font-size:52px;line-height:1;color:var(--sea)}
+.daydate{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.12em}
+.daytheme{font-family:var(--serif);font-weight:700;font-size:24px}
+.daydrive{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--mute);background:var(--shallow);padding:5px 12px;border-radius:999px;white-space:nowrap}
+.daynote{background:var(--sand);border-left:4px solid var(--sea);padding:12px 16px;margin:18px 0 8px;font-size:14.5px;border-radius:0 8px 8px 0}
+.daynote b{color:var(--sea-deep)}
+.daynote.alert{border-left-color:var(--coral)}
+.daynote.alert b{color:var(--coral)}
+
+/* ── 行程脊柱 ── */
+.spine{position:relative;margin:26px 0 0;padding-left:34px}
+.spine::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:3px;background:linear-gradient(var(--sea) 60%,rgba(18,138,126,.25));border-radius:2px}
+.slotlabel{position:relative;font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.3em;color:var(--sea-deep);margin:26px 0 10px}
+.slotlabel::before{content:"";position:absolute;left:-30px;top:5px;width:11px;height:11px;background:var(--paper);border:3px solid var(--sea);border-radius:50%}
+.spine>.slotlabel:first-child{margin-top:0}
+
+/* ── 車程籤 ── */
+.drive{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--sea-deep);background:var(--shallow);border:1px dashed var(--sea);border-radius:999px;padding:5px 14px;margin:12px 0}
+.drive::before{content:"🚗"}
+.drive small{color:var(--mute);font-weight:500;letter-spacing:0}
+.walk{background:var(--sand);border-color:#C9BFA6;color:#6E6146}
+.walk::before{content:"🚶"}
+
+/* ── 景點卡 ── */
+.card{background:#fff;border:1px solid #DCD8CC;border-radius:14px;overflow:hidden;margin:10px 0;box-shadow:0 2px 10px rgba(22,50,74,.05)}
+.card.hero .photo{aspect-ratio:16/8.5}
+.photo{position:relative;aspect-ratio:16/7;overflow:hidden;display:block;
+  background:linear-gradient(160deg,#E3F1ED 0%,#D2E9E2 55%,#C4E0D8 100%)}
+.photo .ph-deco{position:absolute;inset:0;color:#128A7E;opacity:.5}
+.photo .ph-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:0 20px}
+.photo .ph-hint b{font-family:var(--serif);font-size:22px;color:var(--sea-deep);letter-spacing:.1em}
+.photo .ph-hint span{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.photo img{position:relative;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s}
+.photo.on img{opacity:1}
+.photo .swap,.photo .credit{display:none}
+.photo.on .swap,.photo.on .credit{display:block}
+.photo .credit{position:absolute;right:8px;bottom:6px;font-size:10px;font-family:var(--mono);background:rgba(22,50,74,.55);color:#fff;padding:2px 8px;border-radius:999px;text-decoration:none}
+.photo .swap{position:absolute;left:8px;bottom:6px;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.85);color:var(--ink);border:none;padding:3px 10px;border-radius:999px;cursor:pointer}
+.cbody{padding:16px 18px 15px}
+.chead{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.cname{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.02em}
+.chip{font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:999px;color:#fff;letter-spacing:.08em}
+.area{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.intro{font-size:15px;margin-top:8px;color:#2A4459;text-align:justify}
+.memo{margin-top:10px;font-size:13.5px;background:#FFF8E3;border:1px solid #EAD9A0;border-radius:8px;padding:7px 12px;color:#6E5A1E}
+.memo::before{content:"✎ 筆記　";font-weight:700}
+.cfoot{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.mapbtn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;text-decoration:none;color:var(--sea-deep);border:1.5px solid var(--sea);border-radius:999px;padding:4px 14px;transition:.15s}
+.mapbtn:hover{background:var(--sea);color:#fff}
+.tiny{font-family:var(--mono);font-size:12px;color:var(--mute);align-self:center}
+
+/* 小卡（購物/餐飲等次要點） */
+.card.mini .cbody{padding:12px 16px}
+.card.mini .cname{font-size:17px}
+.card.mini .intro{font-size:14px}
+
+/* ── 口袋名單 / 資訊 ── */
+.pocket{padding:48px 0 24px}
+h2.sec{font-family:var(--serif);font-weight:900;font-size:30px;border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:20px}
+h2.sec small{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.3em;color:var(--mute);margin-left:12px}
+.infogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:8px}
+.info{background:#fff;border:1px solid #DCD8CC;border-radius:12px;padding:16px 18px}
+.info h3{font-family:var(--serif);font-size:17px;margin-bottom:6px;color:var(--sea-deep)}
+.info p{font-size:14px;color:#2A4459}
+.info .mono{font-family:var(--mono);font-size:13px}
+
+/* ── 頁尾 ── */
+footer{padding:40px 24px 60px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.printbtn{position:fixed;right:18px;bottom:18px;z-index:9;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:10px 18px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(22,50,74,.3)}
+
+@media (max-width:560px){
+  .cname{font-size:18px}
+  .dayno{font-size:42px}
+  .daydrive{margin-left:0}
+}
+@media print{
+  .printbtn,.swap{display:none!important}
+  body{font-size:12.5px}
+  section.day{page-break-before:always;padding:20px 0}
+  .cover{min-height:auto;page-break-after:always}
+  .card{box-shadow:none;break-inside:avoid}
+  a{text-decoration:none;color:var(--ink)}
+  .mapbtn{border-color:#bbb;color:#555}
+}
+@media (prefers-reduced-motion:no-preference){
+  .card{animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <div class="kicker">Family Road Trip Guidebook</div>
+  <h1>沖　繩<span class="en">OKINAWA · 5 DAYS BY CAR</span></h1>
+  <div class="dates">2026.08.14 五 — 08.18 二</div>
+  <div class="facts">
+    <div><b>去程 OUTBOUND</b><span>華航 CI120｜08/14 10:45 抵那霸</span></div>
+    <div><b>回程 INBOUND</b><span>華航 CI123｜08/18 20:55 起飛</span></div>
+    <div><b>住宿 BASE ×4 晚</b><span>星野集團 BEB5 沖繩瀨良垣</span></div>
+    <div><b>租車 CAR</b><span>OTS 臨空豐崎營業所｜08/18 18:00 前還車・記得加滿油</span></div>
+  </div>
+  <svg class="wavefoot" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,55 C100,20 200,90 300,55 C400,20 500,90 600,55 C700,20 800,90 900,55 C1000,20 1100,90 1200,55 L1200,90 L0,90 Z" fill="#E3F1ED"/>
+    <path d="M0,65 C100,35 200,95 300,65 C400,35 500,95 600,65 C700,35 800,95 900,65 C1000,35 1100,95 1200,65" fill="none" stroke="#128A7E" stroke-width="2.5"/>
+  </svg>
+</div>
+
+<main class="wrap" id="app"></main>
+
+<section class="wrap pocket" id="pocket"></section>
+
+<footer>用心玩，慢慢開。 · 車程為一般路況估計，遇尖峰或風雨請多留餘裕 · 照片載自 Wikimedia Commons（離線時顯示插圖）</footer>
+<button class="printbtn" onclick="print()">🖨 列印手冊</button>
+
+<script>
+/* ───────── 資料 ───────── */
+const CAT = {spot:['景點','var(--c-spot)'], shop:['購物','var(--c-shop)'], dining:['餐飲','var(--c-dining)'], basic:['交通・住宿','var(--c-basic)']};
+
+/* photo: [lat,lng] 供 Wikimedia 座標搜圖；q: 備用關鍵字；hero: 大圖卡 */
+const SPOTS = {
+ arrive:{n:'華航 CI120｜10:45 抵達那霸機場',c:'basic',intro:'入境審查與提領行李旺季約需 60–90 分鐘，之後到國內線側搭 OTS 接駁車。抵達後先別急，行程上午只排這一件事。'},
+ ots:{n:'OTS 臨空豐崎營業所',c:'basic',area:'豐崎',photo:[26.1588,127.6544],q:'OTS レンタカー 豊崎',
+  intro:'取車據點，機場接駁車約 10–15 分。八月旺季取車手續可能排隊 30–60 分鐘，建議先在線上完成登錄縮短流程。最後一天也在此還車。',
+  map:1},
+ ashibinaa:{n:'ASHIBINAA Outlet',c:'shop',area:'豐崎',photo:[26.1591,127.6576],q:'沖縄アウトレットモールあしびなー',hero:1,
+  intro:'沖繩唯一的 Outlet 購物中心，希臘神殿式的白色廊柱建築裡集結約百家國際與日系品牌，離機場車程僅 15 分鐘，是抵達日與離境日都順路的折扣天堂。對面就有 YAMADA 電器，可一次補齊。',
+  map:1},
+ dmm:{n:'DMM Kariyushi 水族館',c:'spot',area:'豐崎',photo:[26.1564,127.6507],q:'DMMかりゆし水族館',hero:1,
+  intro:'2020 年開幕的新型態「娛樂水族館」，位於 iias 沖繩豐崎商場內。以投影與數位演出結合實體水槽，一樓亞熱帶森林、二樓海洋世界，還能腳踩透明地板俯瞰悠游的魟魚，雨天備案也完全成立，約停留 1.5–2 小時。',
+  map:1},
+ iias:{n:'iias 沖繩豐崎',c:'shop',area:'豐崎',photo:[26.1577,127.6509],
+  intro:'水族館所在的大型購物中心，美食街、超市、藥妝一應俱全，逛完水族館直接在這裡解決午餐或晚餐最省時。',map:1,mini:1},
+ beach1:{n:'豊崎海浜公園（美麗 SUN 海灘）',c:'spot',area:'豐崎',photo:[26.1564,127.6473],q:'豊崎美らSUNビーチ',
+  intro:'iias 旁的人工海灘公園，是離機場最近的海水浴場，能看著飛機起降玩水踏浪。若第一天時間有限，散步看海放個風即可，正式玩水留給恩納的四天。',map:1,mini:1},
+ beb5:{n:'星野集團 BEB5 沖繩瀨良垣',c:'basic',area:'恩納',photo:[26.5031,127.8624],q:'BEB5沖縄瀬良垣',hero:1,
+  intro:'星野集團的年輕副牌，2022 年開幕，就在瀨良垣島對岸。招牌是 24 小時開放的「TAMARIBA」大廳──沙發、吊床與輕食吧，退房前都能賴著。走路可達海邊，開車 5 分鐘內就是萬座一帶，是這趟旅程四晚的家。',
+  map:1},
+ cave:{n:'CAVE OKINAWA（ぬちしぬじガマ）',c:'spot',area:'宇流麻・石川',photo:[26.4204,127.8093],q:'CAVE OKINAWA 鍾乳洞',hero:1,
+  intro:'全長約 200 公尺的穿越式鐘乳洞，燈光打出「青之世界」等奇幻場景，洞內沁涼約 30 分鐘走完，是盛夏避暑首選。這裡舊名「ぬちしぬじガマ」──沖繩戰時三百位居民躲進洞中無一罹難，被視為守護生命之地。9:00 開門，大人 ¥1,200（夏季延長至 18:30）。',
+  map:1},
+ banta:{n:'BANTA CAFE（星野）',c:'dining',area:'讀谷',photo:[26.4177,127.7140],q:'バンタカフェ 読谷',hero:1,
+  intro:'星野集團打造、號稱日本最大級的海濱咖啡館，順著讀谷海岸的崖線（沖繩話的「バンタ」）層層而下，從大屋簷露台到礁岩邊的座位各有風景。點杯飲品配「碗蓋午餐」，看潮水在腳下變換顏色，是 Day 2 的中場休息。',
+  map:1},
+ ja:{n:'讀谷村農夫市集（JA ゆんた市場）',c:'shop',area:'讀谷',photo:[26.3927,127.7455],
+  intro:'在地人採買的農產直賣所，紅芋、島蔬菜、當季水果便宜又新鮮，也有現成熟食與伴手禮，補水果零食的好地方。',map:1,mini:1},
+ pottery:{n:'陶藝村（やちむんの里）',c:'spot',area:'讀谷',photo:[26.4051,127.7553],q:'やちむんの里 読谷',hero:1,
+  intro:'讀谷山中的陶器聚落，紅瓦工房與共同登窯散落林間，「やちむん」即沖繩話的陶器。十多間工房與直賣店可自由逛，尋一只手作碗盤帶回家，就是最有溫度的紀念品。多數店約 17:00 前打烊，留 1 小時慢慢挑。',
+  map:1},
+ izakaya:{n:'沖繩民謠居酒屋',c:'dining',area:'恩納',photo:[26.5029,127.8620],
+  intro:'邊吃沖繩料理邊聽三線現場演唱的居酒屋，就在飯店旁步行可達──代表今晚可以放心點 Orion 生啤和泡盛，不用派代駕。',map:1,mini:1},
+ manga_u:{n:'漫畫倉庫 浦添店',c:'shop',photo:[26.2618,127.7120],
+  intro:'什麼都收、什麼都賣的巨型二手倉庫：漫畫、玩具、電玩、模型與雜貨，挖寶型店家，10:00 開門直接當第一站。',map:1,mini:1},
+ second:{n:'2nd Street 浦添店',c:'shop',photo:[26.2656,127.7145],
+  intro:'日本連鎖二手服飾／精品店，狀態好、標價實在，與漫畫倉庫相距幾百公尺，順路掃一輪。',map:1,mini:1},
+ minatogawa:{n:'港川外人住宅（STATESIDE TOWN）',c:'spot',area:'浦添',photo:[26.2625,127.7146],q:'港川ステイツサイドタウン',hero:1,
+  intro:'1960 年代美軍眷舍改建的街區，一棟棟平頂白屋如今住進了甜點店、咖啡館與選物店，門牌還沿用美國州名。屋距很近、適合散步慢逛，也是拍照的好背景。店家多在 11:00 後陸續開門，安排在上午偏晚剛好。',
+  map:1},
+ kokusai1:{n:'那霸國際通',c:'spot',area:'那霸',photo:[26.2153,127.6858],q:'国際通り 那覇',hero:1,
+  intro:'那霸最熱鬧的 1.6 公里大街，戰後從廢墟中快速復興而有「奇蹟的一英里」之稱。伴手禮、雪鹽霜淇淋、市場小巷一路逛不完；週日 12:00–18:00 主線封街成行人徒步區，正好下午安心讓阿比外拍，車停周邊收費停車場即可。',
+  map:0},
+ manza:{n:'萬座海上樂園（ANA 萬座海灘）',c:'spot',area:'恩納',photo:[26.4976,127.8530],q:'万座ビーチ 恩納',hero:1,
+  intro:'ANA 洲際萬座海濱度假村前的海上充氣樂園，號稱日本最大級──滑梯、蹦床、攀岩牆等數十種關卡漂在海上，非住客也可購票入場，另有 SUP、獨木舟等水上活動可加購。從飯店開過去只要 5 分鐘，Day 4 整天泡在這裡剛剛好。',
+  map:1},
+ pst:{n:'PST 海邊 Pizza',c:'dining',area:'恩納・瀨良垣',photo:[26.5045,127.8598],
+  intro:'飯店旁的窯烤披薩店，玩水玩累了上岸補充碳水，餅皮邊看海邊吃最對味。',map:1,mini:1},
+ pallet:{n:'PALLET',c:'dining',area:'恩納',photo:[26.5020,127.8605],
+  intro:'輕食帕尼尼專門店，外帶方便，當作海邊野餐或下午點心的選項。',map:1,mini:1},
+ hotelplay:{n:'飯店周邊吃喝玩樂',c:'spot',area:'恩納',
+  intro:'傍晚回到 BEB5，泡在 TAMARIBA 大廳、到瀨良垣海邊看夕陽，或散步找間食堂，把最後的傍晚留給不趕路的自己。',mini:1},
+ kaichu:{n:'海中道路',c:'spot',area:'宇流麻',photo:[26.3320,127.9276],q:'海中道路 うるま',hero:1,
+  intro:'全長 5.2 公里、筆直穿過金武灣淺海的堤道，兩側是與視線齊高的翡翠色海面，是沖繩代表性的兜風路線。中段的「海之驛 あやはし館」有停車場與展望點，滿潮時海色最美──記得查一下當天潮汐再決定停留時間。',
+  map:1},
+ meat:{n:'肉的食堂',c:'dining',area:'宇流麻',photo:[26.3426,127.9532],
+  intro:'過了海中道路後的午餐點，大口吃肉補足體力，再繼續往宮城島前進。',map:1,mini:1},
+ salt:{n:'製鹽工廠（ぬちまーす觀光工廠）',c:'spot',area:'宮城島',photo:[26.3592,127.9704],q:'ぬちまーす 宮城島',hero:1,
+  intro:'「ぬちまーす」意為生命之鹽，以獨家常溫瞬間結晶製法把海水化成雪一般的細鹽，礦物質種類曾登金氏世界紀錄。免費參觀製程、試吃鹽味冰淇淋；步行幾分鐘就是斷崖絕景「果報バンタ」，別錯過這個順手的大景。',
+  map:1},
+ manga_a:{n:'漫畫倉庫 泡瀨店',c:'shop',area:'沖繩市',photo:[26.3074,127.8197],
+  intro:'回程順路的第二間挖寶倉庫，離永旺夢樂城只有 10 分鐘車程，時間允許就進去掃最後一輪。',map:1,mini:1},
+ rycom:{n:'永旺夢樂城 沖繩來客夢',c:'shop',area:'北中城',photo:[26.3145,127.7965],q:'イオンモール沖縄ライカム',
+  intro:'沖繩最大的購物中心，約 200 家店鋪、大水槽中庭是地標。這站是「看時間的彈性站」──16:30 前務必上車出發還車，寧可少逛半小時，不要跟還車時間賭。',map:1},
+ return:{n:'還車 → 那霸機場 → CI123 20:55',c:'basic',area:'豐崎',
+  intro:'回 OTS 豐崎前先把油加滿（附近有加油站），18:00 前完成還車，搭接駁車約 15 分鐘到機場。國際線櫃檯起飛前 3 小時開放，抓 18:30 前抵達機場最從容。'},
+ /* 口袋名單 */
+ forest:{n:'森林冒險 IN 恩納',c:'spot',area:'恩納',photo:[26.4341,127.7605],
+  intro:'樹冠層滑索與繩橋的戶外體驗園區，離飯店約 20 分鐘車程。若某天海況不佳想改陸上活動，這是最近的備案。',map:1,mini:1},
+ nago:{n:'名護漁港食堂',c:'dining',area:'名護',photo:[26.5872,127.9825],
+  intro:'漁港直營的平價海鮮食堂，生魚片蓋飯與天婦羅是招牌。離恩納約 30–40 分鐘，若哪天想往北跑可以納入。',map:1,mini:1},
+};
+
+/* Google Maps 連結（沿用你行程裡的原始連結） */
+const MAPS = {
+ ots:"https://www.google.com/maps/place/OTS%E8%87%A8%E7%A9%BA%E8%B1%90%E5%B4%8E%E7%87%9F%E6%A5%AD%E6%89%80%EF%BC%88%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4%EF%BC%89/@26.1557736,127.6526311,16z/data=!4m6!3m5!1s0x34e568095e57f603:0xd6af9892e36a0f42!8m2!3d26.1588346!4d127.654403!16s%2Fg%2F1tj82lz4",
+ ashibinaa:"https://www.google.com/maps/place/%E6%B2%96%E7%B9%A9+ASHIBINAA+Outlet/@26.1989046,127.7104401,13z/data=!4m6!3m5!1s0x34e5680b869eccf7:0xd51f50b361213e26!8m2!3d26.1590569!4d127.6575776!16s%2Fg%2F1235dvb9",
+ dmm:"https://www.google.com/maps/place/DMM+Kariyushi%E6%B0%B4%E6%97%8F%E9%A4%A8/@26.1557736,127.6526311,16z/data=!4m6!3m5!1s0x34e569b4739496c7:0x6e6b68acb452b177!8m2!3d26.1563877!4d127.6506782!16s%2Fg%2F11f7ptsx1f",
+ iias:"https://www.google.com/maps/place/iias+%E6%B2%96%E7%B9%A9%E8%B1%90%E5%B4%8E/@26.1572793,127.6509022,18z/data=!4m6!3m5!1s0x34e5697fb7f1e68f:0x1395163711b95855!8m2!3d26.1577285!4d127.6509467!16s%2Fg%2F11jn_jy7rl",
+ beach1:"https://www.google.com/maps/place/%E7%BE%8E%E9%BA%97SUN%E6%B5%B7%E7%81%98/@26.1566693,127.6472431,17.75z/data=!4m6!3m5!1s0x34e5680792107e9d:0x88a506bbe5a7863e!8m2!3d26.1564375!4d127.6473125!16s%2Fg%2F1tmk67rz",
+ beb5:"https://www.google.com/maps/place/%E6%98%9F%E9%87%8E%E9%9B%86%E5%9C%98+BEB5+%E6%B2%96%E7%B9%A9%E7%80%A8%E8%89%AF%E5%9E%A3/@26.5013244,127.8665134,15.75z/data=!4m9!3m8!1s0x34e50314daf8823b:0x96cf197294cf816f!8m2!3d26.5031078!4d127.8623681!16s%2Fg%2F11pzx3my9z",
+ cave:"https://www.google.com/maps/place/%E9%90%98%E4%B9%B3%E6%B4%9E/@26.4199904,127.8078232,17.29z/data=!4m6!3m5!1s0x34e510026801563b:0x863c44f936a877c9!8m2!3d26.4204123!4d127.8093378!16s%2Fg%2F119wqmr7c",
+ banta:"https://www.google.com/maps/search/?api=1&query=%E3%83%90%E3%83%B3%E3%82%BF%E3%82%AB%E3%83%95%E3%82%A7&query_place_id=",
+ ja:"https://www.google.com/maps/place/JA+Yomitan+Farmers+Market+Yunta+Ichiba/@26.3926752,127.7429553,17z/data=!4m6!3m5!1s0x34e5113e1ee6000d:0x8a2424d26d6370d!8m2!3d26.3926752!4d127.7455302",
+ pottery:"https://www.google.com/maps/search/?api=1&query=%E3%82%84%E3%81%A1%E3%82%80%E3%82%93%E3%81%AE%E9%87%8C",
+ izakaya:"https://www.google.com/maps/search/?api=1&query=%E6%B2%96%E7%B8%84%E6%B0%91%E8%AC%A0%E5%B1%85%E9%85%92%E5%B1%8B+%E6%81%A9%E7%B4%8D",
+ manga_u:"https://www.google.com/maps/place/%E6%BC%AB%E7%95%AB%E5%80%89%E5%BA%AB+%E6%B5%A6%E6%B7%BB%E5%BA%97/@26.2619468,127.7144864,16.75z/data=!4m6!3m5!1s0x34e56b77151e03ad:0x404dde347f84426f!8m2!3d26.261789!4d127.712023!16s%2Fg%2F11b5pjb82w",
+ second:"https://www.google.com/maps/place/2nd+Street/@26.262954,127.7144979,16.5z/data=!4m6!3m5!1s0x34e56b707ee49e05:0x35f62730c328141b!8m2!3d26.2655983!4d127.714485!16s%2Fg%2F11bzymm5q4",
+ minatogawa:"https://www.google.com/maps/place/%E6%B8%AF%E5%B7%9D%E5%A4%96%E4%BA%BA%E4%BD%8F%E5%AE%85/@26.260631,127.713555,16.75z/data=!4m6!3m5!1s0x34e56b7a21988553:0x892c91e88d0d7a62!8m2!3d26.2625264!4d127.714602!16s%2Fg%2F11c1q8sttq",
+ manza:"https://www.google.com/maps/search/?api=1&query=%E4%B8%87%E5%BA%A7%E3%82%AA%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%91%E3%83%BC%E3%82%AF",
+ pst:"https://www.google.com/maps/search/?api=1&query=PST+%E6%81%A9%E7%B4%8D+%E3%83%94%E3%82%B6",
+ pallet:"https://www.google.com/maps/search/?api=1&query=PALLET+%E6%81%A9%E7%B4%8D",
+ kaichu:"https://www.google.com/maps/place/%E6%B5%B7%E4%B8%AD%E9%81%93%E8%B7%AF%E5%B1%95%E6%9C%9B%E5%8F%B0/@26.3319668,127.9275579,17.75z",
+ meat:"https://www.google.com/maps/search/?api=1&query=%E8%82%89%E3%81%AE%E9%A3%9F%E5%A0%82+%E3%81%86%E3%82%8B%E3%81%BE",
+ salt:"https://www.google.com/maps/place/%E5%91%BD%E5%BE%A1%E5%BA%AD+%E8%A3%BD%E9%B9%BD%E5%B7%A5%E5%BB%A0/@26.35918,127.970407,15.75z",
+ manga_a:"https://www.google.com/maps/search/?api=1&query=%E6%BC%AB%E7%94%BB%E5%80%89%E5%BA%AB+%E6%B3%A1%E7%80%AC%E5%BA%97",
+ rycom:"https://www.google.com/maps/place/%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E6%B2%96%E7%B8%84%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0/@26.3145118,127.7965482,17z",
+ forest:"https://www.google.com/maps/search/?api=1&query=%E3%83%95%E3%82%A9%E3%83%AC%E3%82%B9%E3%83%88%E3%82%A2%E3%83%89%E3%83%99%E3%83%B3%E3%83%81%E3%83%A3%E3%83%BCIN%E6%81%A9%E7%B4%8D",
+ nago:"https://www.google.com/maps/search/?api=1&query=%E5%90%8D%E8%AD%B7%E6%BC%81%E6%B8%AF%E9%A3%9F%E5%A0%82",
+ kokusai1:"https://www.google.com/maps/search/?api=1&query=%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A+%E9%82%A3%E8%A6%87",
+};
+
+const DAYS = [
+ {no:1,date:'08.14',wd:'週五',theme:'降落・豐崎半日・北上恩納',
+  drive:'總車程約 1 小時 25 分',
+  note:'<b>時間帳：</b>10:45 落地 → 入境提行李＋接駁＋取車，實際上路約 <b>13:30 前後</b>。豐崎五個點全在同一街區（水族館就在 iias 裡、Outlet 在對面、海灘走路可到），不用移車硬逛──以 <b>DMM 水族館＋一間商場</b> 為主軸，17:30 前上高速，天黑前抵達飯店。',
+  flow:[
+   {slot:'上午'},
+   {s:'arrive'},
+   {d:'機場國內線側 → OTS 接駁車 約 10–15 分'},
+   {s:'ots'},
+   {slot:'下午'},
+   {w:'豐崎街區內全部步行可達（3 分內）'},
+   {s:'dmm'},{s:'iias'},{s:'ashibinaa'},{s:'beach1'},
+   {slot:'晚上'},
+   {d:'豐崎 → 恩納瀨良垣　沖繩道（名嘉地 IC → 屋嘉 IC）約 57 km・約 70 分'},
+   {s:'beb5'},
+  ]},
+ {no:2,date:'08.15',wd:'週六',theme:'鐘乳洞・讀谷海崖與陶之里',
+  drive:'總車程約 1 小時 40 分',
+  note:'<b>順路邏輯：</b>先往內陸的鐘乳洞（9:00 開門、洞內涼爽，最熱的中午前完成），橫切到西海岸 BANTA CAFE 吃午餐，下午在讀谷一帶慢逛，傍晚沿國道 58 號回恩納。晚餐居酒屋走路就到，可以放心喝。',
+  flow:[
+   {slot:'上午'},
+   {d:'BEB5 → CAVE OKINAWA　一般道 約 13 km・20–25 分'},
+   {s:'cave'},
+   {d:'CAVE → BANTA CAFE　橫越本島 約 14 km・25–30 分'},
+   {s:'banta'},
+   {slot:'下午'},
+   {d:'BANTA → 農夫市集　約 5 km・10 分'},
+   {s:'ja'},
+   {d:'市集 → 陶藝村　約 2 km・5 分'},
+   {s:'pottery'},
+   {slot:'晚上'},
+   {d:'陶藝村 → BEB5　國道 58 號 約 18 km・30 分'},
+   {s:'izakaya'},
+  ]},
+ {no:3,date:'08.16',wd:'週日',theme:'浦添二手挖寶・那霸國際通',
+  drive:'總車程約 2 小時 20 分（本日開最多）',
+  note:'<b class="">週日限定：</b>國際通主線 <b>12:00–18:00 封街成行人徒步區</b>，下午外拍不用閃車，但車要停在周邊收費停車場（縣廳前、牧志一帶）再走進去。浦添的店約 10–11 點開門，出發不用太趕。',
+  flow:[
+   {slot:'上午'},
+   {d:'BEB5 → 浦添港川　沖繩道（屋嘉 IC → 西原 IC）約 45 km・50 分'},
+   {s:'manga_u'},{s:'second'},
+   {w:'三個點相距數百公尺，停一次車走路逛'},
+   {s:'minatogawa'},
+   {slot:'下午'},
+   {d:'港川 → 國際通周邊停車場　約 8 km・20–30 分（進市區）'},
+   {s:'kokusai1'},
+   {slot:'晚上'},
+   {d:'國際通 → BEB5　沖繩道（那霸 IC → 屋嘉 IC）約 55 km・60 分'},
+  ]},
+ {no:4,date:'08.17',wd:'週一',theme:'萬座玩水日',
+  drive:'總車程約 20 分（幾乎不用開車的一天）',
+  note:'<b>節奏日：</b>連開三天車後的緩衝日。海上樂園記得<b>先確認當日海況與開放時間</b>，防曬、水母衣備齊；午餐 PST 或 PALLET 二選一，傍晚回飯店周邊放空。',
+  flow:[
+   {slot:'上午'},
+   {d:'BEB5 → ANA 萬座海灘　約 3 km・5–8 分'},
+   {s:'manza'},
+   {slot:'下午'},
+   {w:'午餐兩案皆在飯店周邊，車程 5 分內'},
+   {s:'pst'},{s:'pallet'},
+   {s:'hotelplay'},
+  ]},
+ {no:5,date:'08.18',wd:'週二',theme:'海中道路・回程還車',
+  drive:'總車程約 3 小時（含回豐崎還車）',
+  note:'<b>倒數時刻表：</b>18:00 還車回推──<b>16:30 從永旺 Rycom 出發</b>（車程約 55 分＋加油＋緩衝）→ 17:45 前抵 OTS → 還車＋接駁 → 18:30 前到機場，CI123 20:55 起飛非常從容。Rycom 與泡瀨漫倉是彈性站，寧可少逛不要賭。退房後行李直接上車。',
+  alert:1,
+  flow:[
+   {slot:'上午'},
+   {d:'BEB5 → 海中道路（あやはし館）　約 30 km・45–50 分'},
+   {s:'kaichu'},
+   {slot:'下午'},
+   {d:'展望台 → 肉的食堂　約 4 km・8 分'},
+   {s:'meat'},
+   {d:'食堂 → 宮城島製鹽工廠　約 5 km・10–12 分（島上道路較窄）'},
+   {s:'salt'},
+   {d:'宮城島 → 泡瀨　回穿海中道路 約 22 km・35–40 分'},
+   {s:'manga_a'},
+   {d:'泡瀨 → 永旺 Rycom　約 3.5 km・10–15 分'},
+   {s:'rycom'},
+   {slot:'晚上'},
+   {d:'Rycom 16:30 出發 → OTS 豐崎（北中城 IC → 豐見城）約 42 km・50–60 分・途中加滿油'},
+   {s:'return'},
+  ]},
+];
+
+/* ───────── 渲染 ───────── */
+const app=document.getElementById('app');
+const esc=s=>s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+function cardHTML(id){
+  const s=SPOTS[id],[cn,cc]=CAT[s.c];
+  const memo={ashibinaa:'購物中心／對面有 YAMADA',beach1:'churasun-beach.com',kokusai1:'下午：阿比外拍 📸',manza:'玩 SUP！',pallet:'panini',rycom:'看時間狀況／不一定會去'}[id];
+  return `<article class="card ${s.hero?'hero':''} ${s.mini?'mini':''}" data-id="${id}">
+    ${s.photo?`<div class="photo" id="ph-${id}">
+      <svg class="ph-deco" viewBox="0 0 640 280" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <path d="M-20,235 C60,205 140,265 220,235 C300,205 380,265 460,235 C540,205 620,265 700,235" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M-20,258 C60,232 140,284 220,258 C300,232 380,284 460,258 C540,232 620,284 700,258" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/>
+        <circle cx="560" cy="58" r="26" fill="none" stroke="currentColor" stroke-width="3" opacity=".7"/>
+      </svg>
+      <div class="ph-hint"><b>${esc(s.n)}</b><span>連上網路開啟即自動載入照片・或點下方地圖看實景</span></div>
+      <img alt="${esc(s.n)}" loading="lazy"><button class="swap" onclick="swapPhoto('${id}')">換一張</button><a class="credit" target="_blank" rel="noopener">Wikimedia</a></div>`:''}
+    <div class="cbody">
+      <div class="chead"><span class="chip" style="background:${cc}">${cn}</span><span class="cname">${esc(s.n)}</span>${s.area?`<span class="area">◎ ${s.area}</span>`:''}</div>
+      <p class="intro">${s.intro}</p>
+      ${memo?`<div class="memo">${esc(memo)}</div>`:''}
+      ${s.map&&MAPS[id]?`<div class="cfoot"><a class="mapbtn" href="${MAPS[id]}" target="_blank" rel="noopener">📍 Google 地圖</a><span class="tiny">點進地圖可看更多照片</span></div>`:''}
+    </div></article>`;
+}
+
+let html='';
+for(const day of DAYS){
+  html+=`<svg class="waveband" viewBox="0 0 1200 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0,26 C75,6 150,46 225,26 C300,6 375,46 450,26 C525,6 600,46 675,26 C750,6 825,46 900,26 C975,6 1050,46 1125,26 L1200,26" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/></svg>
+  <section class="day" id="day${day.no}">
+    <div class="dayhead">
+      <span class="dayno">Day ${day.no}</span>
+      <span class="daydate">${day.date} ${day.wd}</span>
+      <span class="daytheme">${day.theme}</span>
+      <span class="daydrive">🚗 ${day.drive}</span>
+    </div>
+    <div class="daynote ${day.alert?'alert':''}">${day.note}</div>
+    <div class="spine">`;
+  for(const step of day.flow){
+    if(step.slot) html+=`<div class="slotlabel">${step.slot}</div>`;
+    else if(step.d) html+=`<div class="drive">${esc(step.d).replace(/約 ([\d–\.\s]+(?:km|分)[^　]*)/g,'約 $1')}</div>`;
+    else if(step.w) html+=`<div class="drive walk">${esc(step.w)}</div>`;
+    else html+=cardHTML(step.s);
+  }
+  html+=`</div></section>`;
+}
+app.innerHTML=html;
+
+/* 口袋名單＋實用資訊 */
+document.getElementById('pocket').innerHTML=`
+ <h2 class="sec">口袋名單<small>POCKET LIST</small></h2>
+ <p style="font-size:14px;color:var(--mute);margin-bottom:10px">還沒排進行程的備案，天氣或興致一變就派上用場。</p>
+ ${cardHTML('forest')}${cardHTML('nago')}
+ <h2 class="sec" style="margin-top:44px">實用備忘<small>NOTES</small></h2>
+ <div class="infogrid">
+  <div class="info"><h3>還車倒數（08/18）</h3><p class="mono">16:30 離開 Rycom<br>17:15 途中加滿油<br>17:45 抵 OTS 豐崎<br>18:00 完成還車 → 接駁<br>18:30 抵那霸機場<br>20:55 CI123 起飛</p></div>
+  <div class="info"><h3>CAVE OKINAWA</h3><p>9:00–17:30（夏季延長至 18:30、最終入場 18:00）<br>大人 ¥1,200／兒童 ¥600<br>洞內濕滑，穿止滑的鞋。</p></div>
+  <div class="info"><h3>國際通（週日）</h3><p>12:00–18:00 主線封街為行人徒步區，車停縣廳前、牧志周邊的收費停車場步行進入。</p></div>
+  <div class="info"><h3>八月提醒</h3><p>正值颱風季，出發前後留意海況與航班資訊；海上樂園與 SUP 依當日風浪開放。防曬、補水，午後易有雷陣雨。</p></div>
+  <div class="info"><h3>海中道路小訣竅</h3><p>滿潮前後海色最漂亮，退潮時兩側是大片潮灘。可先查當日潮汐表再定出發時間。</p></div>
+  <div class="info"><h3>加油站</h3><p>還車前需加滿油並保留收據，OTS 豐崎營業所周邊即有加油站，別留到機場才想起來。</p></div>
+ </div>`;
+
+/* ───────── Wikimedia Commons 照片載入（JSONP，file:// 開啟也能用） ───────── */
+const cache={};
+function jsonp(url,timeout=8000){return new Promise((res,rej)=>{
+  const cb='__wm'+Math.random().toString(36).slice(2);
+  const sc=document.createElement('script');
+  const clean=()=>{delete window[cb];sc.remove();clearTimeout(t)};
+  const t=setTimeout(()=>{clean();rej(new Error('timeout'))},timeout);
+  window[cb]=d=>{clean();res(d)};
+  sc.onerror=()=>{clean();rej(new Error('network'))};
+  sc.src=url+'&callback='+cb;
+  document.head.appendChild(sc);
+})}
+function setHint(box,msg){const h=box.querySelector('.ph-hint span');if(h)h.textContent=msg}
+async function loadPhoto(id,idx=0){
+  const s=SPOTS[id]; if(!s.photo) return;
+  const box=document.getElementById('ph-'+id); if(!box) return;
+  try{
+    if(!cache[id]){
+      setHint(box,'照片載入中…');
+      const [lat,lng]=s.photo;
+      let imgs=[];
+      const geo=`https://commons.wikimedia.org/w/api.php?action=query&generator=geosearch&ggscoord=${lat}%7C${lng}&ggsradius=600&ggslimit=12&ggsnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json`;
+      try{const j=await jsonp(geo); if(j.query) imgs=Object.values(j.query.pages)}catch(e){}
+      if(imgs.length<2 && s.q){
+        const q=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(s.q)}&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json`;
+        try{const j2=await jsonp(q); if(j2.query) imgs=imgs.concat(Object.values(j2.query.pages))}catch(e){}
+      }
+      cache[id]=imgs.map(p=>p.imageinfo&&p.imageinfo[0]).filter(i=>i&&/\.(jpe?g|png|webp)$/i.test(i.url));
+      if(!cache[id].length){setHint(box,imgs.length===0?'連不上 Wikimedia（可能被防火牆或瀏覽器擋下）— 點下方地圖看實景':'Commons 沒有這個點的照片 — 點下方地圖看實景');return}
+    }
+    const list=cache[id]; if(!list.length) return;
+    const pick=list[idx%list.length];
+    const img=box.querySelector('img');
+    img.onload=()=>box.classList.add('on');
+    img.onerror=()=>{box.classList.remove('on');setHint(box,'圖檔載入失敗 — 按重試或點下方地圖看實景')};
+    img.src=pick.thumburl||pick.url;
+    box.querySelector('.credit').href=pick.descriptionurl||'#';
+    box.dataset.idx=idx;
+  }catch(e){setHint(box,'照片載入失敗（'+e.message+'）— 點下方地圖看實景')}
+}
+function swapPhoto(id){
+  const box=document.getElementById('ph-'+id);
+  loadPhoto(id,(parseInt(box.dataset.idx||0)+1));
+}
+/* 進入視窗才載入 */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){const id=e.target.dataset.id;if(SPOTS[id]&&SPOTS[id].photo){loadPhoto(id);io.unobserve(e.target)}}
+}),{rootMargin:'400px'});
+document.querySelectorAll('.card').forEach(c=>io.observe(c));
+</script>
+</body>
+</html>
