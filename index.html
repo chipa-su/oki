@@ -79,8 +79,10 @@ section.day{padding:56px 0 40px}
 .photo .ph-hint span{font-family:var(--mono);font-size:11px;color:var(--mute)}
 .photo img{position:relative;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s}
 .photo.on img{opacity:1}
-.photo .swap,.photo .credit{display:none}
+.photo .swap,.photo .credit{display:none;z-index:3}
 .photo.on .swap,.photo.on .credit{display:block}
+.photo .cust{position:absolute;right:8px;top:8px;z-index:3;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.92);border:1px solid #C9C3B4;color:var(--ink);padding:3px 10px;border-radius:999px;cursor:pointer}
+.exportbtn{position:fixed;right:18px;bottom:66px;z-index:9;background:var(--sea-deep);color:#fff;border:none;border-radius:999px;padding:10px 18px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(11,95,88,.3)}
 .photo .credit{position:absolute;right:8px;bottom:6px;font-size:10px;font-family:var(--mono);background:rgba(22,50,74,.55);color:#fff;padding:2px 8px;border-radius:999px;text-decoration:none}
 .photo .swap{position:absolute;left:8px;bottom:6px;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.85);color:var(--ink);border:none;padding:3px 10px;border-radius:999px;cursor:pointer}
 .cbody{padding:16px 18px 15px}
@@ -121,7 +123,7 @@ footer{padding:40px 24px 60px;text-align:center;font-family:var(--mono);font-siz
   .daydrive{margin-left:0}
 }
 @media print{
-  .printbtn,.swap{display:none!important}
+  .printbtn,.exportbtn,.swap,.cust{display:none!important}
   body{font-size:12.5px}
   section.day{page-break-before:always;padding:20px 0}
   .cover{min-height:auto;page-break-after:always}
@@ -158,11 +160,15 @@ footer{padding:40px 24px 60px;text-align:center;font-family:var(--mono);font-siz
 
 <section class="wrap pocket" id="pocket"></section>
 
-<footer>用心玩，慢慢開。 · 車程為一般路況估計，遇尖峰或風雨請多留餘裕 · 照片載自 Wikimedia Commons（離線時顯示插圖）</footer>
+<footer>用心玩，慢慢開。 · 車程為一般路況估計，遇尖峰或風雨請多留餘裕 · 照片：Wikimedia Commons／自訂來源・按各卡「✎ 自訂」可換照片</footer>
 <button class="printbtn" onclick="print()">🖨 列印手冊</button>
+<button class="exportbtn" onclick="exportHTML()">⬇ 匯出含照片版</button>
+<input type="file" id="filepick" accept="image/*" style="display:none">
 
+<script id="baked" type="application/json">{}</script>
 <script>
 /* ───────── 資料 ───────── */
+const FP=n=>'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(n);
 const CAT = {spot:['景點','var(--c-spot)'], shop:['購物','var(--c-shop)'], dining:['餐飲','var(--c-dining)'], basic:['交通・住宿','var(--c-basic)']};
 
 /* photo: [lat,lng] 供 Wikimedia 座標搜圖；q: 備用關鍵字；hero: 大圖卡 */
@@ -192,7 +198,7 @@ const SPOTS = {
   map:1},
  ja:{n:'讀谷村農夫市集（JA ゆんた市場）',c:'shop',area:'讀谷',photo:[26.3927,127.7455],
   intro:'在地人採買的農產直賣所，紅芋、島蔬菜、當季水果便宜又新鮮，也有現成熟食與伴手禮，補水果零食的好地方。',map:1,mini:1},
- pottery:{n:'陶藝村（やちむんの里）',c:'spot',area:'讀谷',photo:[26.4051,127.7553],q:'やちむんの里 読谷',hero:1,
+ pottery:{fixed:[FP('Yomitan Yachimun no Sato.jpg')],n:'陶藝村（やちむんの里）',c:'spot',area:'讀谷',photo:[26.4051,127.7553],q:'やちむんの里 読谷',hero:1,
   intro:'讀谷山中的陶器聚落，紅瓦工房與共同登窯散落林間，「やちむん」即沖繩話的陶器。十多間工房與直賣店可自由逛，尋一只手作碗盤帶回家，就是最有溫度的紀念品。多數店約 17:00 前打烊，留 1 小時慢慢挑。',
   map:1},
  izakaya:{n:'沖繩民謠居酒屋',c:'dining',area:'恩納',photo:[26.5029,127.8620],
@@ -204,10 +210,10 @@ const SPOTS = {
  minatogawa:{n:'港川外人住宅（STATESIDE TOWN）',c:'spot',area:'浦添',photo:[26.2625,127.7146],q:'港川ステイツサイドタウン',hero:1,
   intro:'1960 年代美軍眷舍改建的街區，一棟棟平頂白屋如今住進了甜點店、咖啡館與選物店，門牌還沿用美國州名。屋距很近、適合散步慢逛，也是拍照的好背景。店家多在 11:00 後陸續開門，安排在上午偏晚剛好。',
   map:1},
- kokusai1:{n:'那霸國際通',c:'spot',area:'那霸',photo:[26.2153,127.6858],q:'国際通り 那覇',hero:1,
+ kokusai1:{fixed:[FP('Kokusai-dori08s3s4440.jpg'),FP('Kokusai-dori03ss4272.jpg'),FP('JP-47 Naha Kokusai-dori street.jpg')],n:'那霸國際通',c:'spot',area:'那霸',photo:[26.2153,127.6858],q:'国際通り 那覇',hero:1,
   intro:'那霸最熱鬧的 1.6 公里大街，戰後從廢墟中快速復興而有「奇蹟的一英里」之稱。伴手禮、雪鹽霜淇淋、市場小巷一路逛不完；週日 12:00–18:00 主線封街成行人徒步區，正好下午安心讓阿比外拍，車停周邊收費停車場即可。',
   map:0},
- manza:{n:'萬座海上樂園（ANA 萬座海灘）',c:'spot',area:'恩納',photo:[26.4976,127.8530],q:'万座ビーチ 恩納',hero:1,
+ manza:{fixed:[FP('ANA InterContinental Manza Beach Resort from Cape Manzamo.JPG'),FP('Onna Okinawa Japan Cape-Manzamo-01.jpg'),FP('Cape Manza Elephant Rock, Okinawa.jpg')],n:'萬座海上樂園（ANA 萬座海灘）',c:'spot',area:'恩納',photo:[26.4976,127.8530],q:'万座ビーチ 恩納',hero:1,
   intro:'ANA 洲際萬座海濱度假村前的海上充氣樂園，號稱日本最大級──滑梯、蹦床、攀岩牆等數十種關卡漂在海上，非住客也可購票入場，另有 SUP、獨木舟等水上活動可加購。從飯店開過去只要 5 分鐘，Day 4 整天泡在這裡剛剛好。',
   map:1},
  pst:{n:'PST 海邊 Pizza',c:'dining',area:'恩納・瀨良垣',photo:[26.5045,127.8598],
@@ -216,12 +222,12 @@ const SPOTS = {
   intro:'輕食帕尼尼專門店，外帶方便，當作海邊野餐或下午點心的選項。',map:1,mini:1},
  hotelplay:{n:'飯店周邊吃喝玩樂',c:'spot',area:'恩納',
   intro:'傍晚回到 BEB5，泡在 TAMARIBA 大廳、到瀨良垣海邊看夕陽，或散步找間食堂，把最後的傍晚留給不趕路的自己。',mini:1},
- kaichu:{n:'海中道路',c:'spot',area:'宇流麻',photo:[26.3320,127.9276],q:'海中道路 うるま',hero:1,
+ kaichu:{fixed:[FP('Kaichu Road - panoramio.jpg'),FP('Kaichu-Doro.jpg'),FP('Uruma Kaichu Doro.jpg'),FP('20100526金武湾.JPG')],n:'海中道路',c:'spot',area:'宇流麻',photo:[26.3320,127.9276],q:'海中道路 うるま',hero:1,
   intro:'全長 5.2 公里、筆直穿過金武灣淺海的堤道，兩側是與視線齊高的翡翠色海面，是沖繩代表性的兜風路線。中段的「海之驛 あやはし館」有停車場與展望點，滿潮時海色最美──記得查一下當天潮汐再決定停留時間。',
   map:1},
  meat:{n:'肉的食堂',c:'dining',area:'宇流麻',photo:[26.3426,127.9532],
   intro:'過了海中道路後的午餐點，大口吃肉補足體力，再繼續往宮城島前進。',map:1,mini:1},
- salt:{n:'製鹽工廠（ぬちまーす觀光工廠）',c:'spot',area:'宮城島',photo:[26.3592,127.9704],q:'ぬちまーす 宮城島',hero:1,
+ salt:{fixed:[FP('Kafu Banta 202107.jpg')],n:'製鹽工廠（ぬちまーす觀光工廠）',c:'spot',area:'宮城島',photo:[26.3592,127.9704],q:'ぬちまーす 宮城島',hero:1,
   intro:'「ぬちまーす」意為生命之鹽，以獨家常溫瞬間結晶製法把海水化成雪一般的細鹽，礦物質種類曾登金氏世界紀錄。免費參觀製程、試吃鹽味冰淇淋；步行幾分鐘就是斷崖絕景「果報バンタ」，別錯過這個順手的大景。',
   map:1},
  manga_a:{n:'漫畫倉庫 泡瀨店',c:'shop',area:'沖繩市',photo:[26.3074,127.8197],
@@ -364,8 +370,8 @@ function cardHTML(id){
         <path d="M-20,258 C60,232 140,284 220,258 C300,232 380,284 460,258 C540,232 620,284 700,258" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/>
         <circle cx="560" cy="58" r="26" fill="none" stroke="currentColor" stroke-width="3" opacity=".7"/>
       </svg>
-      <div class="ph-hint"><b>${esc(s.n)}</b><span>連上網路開啟即自動載入照片・或點下方地圖看實景</span></div>
-      <img alt="${esc(s.n)}" loading="lazy"><button class="swap" onclick="swapPhoto('${id}')">換一張</button><a class="credit" target="_blank" rel="noopener">Wikimedia</a></div>`:''}
+      <div class="ph-hint"><b>${esc(s.n)}</b><span>按右上「✎ 自訂」貼上照片網址或上傳圖片・或點下方地圖看實景</span></div>
+      <img alt="${esc(s.n)}" loading="lazy"><button class="cust" onclick="customPhoto('${id}')">✎ 自訂</button><button class="swap" onclick="swapPhoto('${id}')">換一張</button><a class="credit" target="_blank" rel="noopener">Wikimedia</a></div>`:''}
     <div class="cbody">
       <div class="chead"><span class="chip" style="background:${cc}">${cn}</span><span class="cname">${esc(s.n)}</span>${s.area?`<span class="area">◎ ${s.area}</span>`:''}</div>
       <p class="intro">${s.intro}</p>
@@ -434,6 +440,44 @@ async function apiGet(url){
   }
 }
 function setHint(box,msg){const h=box.querySelector('.ph-hint span');if(h)h.textContent=msg}
+function show(box,src,creditUrl){
+  const img=box.querySelector('img');
+  img.onload=()=>box.classList.add('on');
+  img.onerror=()=>{box.classList.remove('on');setHint(box,'圖檔載入失敗 — 按「✎ 自訂」換一張或點下方地圖')};
+  img.src=src;
+  const c=box.querySelector('.credit');
+  if(creditUrl){c.href=creditUrl;c.style.display=''}else{c.style.display='none'}
+}
+/* 自訂照片：localStorage（GitHub Pages 上有效）＋匯出時內嵌 */
+let OVR={};
+try{OVR=JSON.parse(document.getElementById('baked').textContent||'{}')}catch(e){}
+try{Object.assign(OVR,JSON.parse(localStorage.getItem('okiPhotos')||'{}'))}catch(e){}
+function saveOVR(){try{localStorage.setItem('okiPhotos',JSON.stringify(OVR))}catch(e){alert('此環境無法儲存，請用「匯出含照片版」保存')}}
+let pickTarget=null;
+document.getElementById('filepick').addEventListener('change',ev=>{
+  const f=ev.target.files[0]; if(!f||!pickTarget) return;
+  const r=new FileReader();
+  r.onload=()=>{OVR[pickTarget]=r.result;saveOVR();applyPhoto(pickTarget)};
+  r.readAsDataURL(f); ev.target.value='';
+});
+function customPhoto(id){
+  const c=prompt('自訂「'+SPOTS[id].n+'」的照片：\n1＝貼上圖片網址　2＝上傳圖片檔　3＝清除自訂','1');
+  if(c==='1'){const u=prompt('貼上圖片網址（img 的 https:// 連結）：');if(u&&/^https:\/\//.test(u.trim())){OVR[id]=u.trim();saveOVR();applyPhoto(id)}}
+  else if(c==='2'){pickTarget=id;document.getElementById('filepick').click()}
+  else if(c==='3'){delete OVR[id];saveOVR();applyPhoto(id)}
+}
+function applyPhoto(id,idx=0){
+  const s=SPOTS[id],box=document.getElementById('ph-'+id); if(!box) return;
+  if(OVR[id]){show(box,OVR[id],null);return}
+  if(s.fixed&&s.fixed.length){show(box,s.fixed[idx%s.fixed.length]+'?width=1100',s.fixed[idx%s.fixed.length].replace('Special:FilePath/','File:'));box.dataset.idx=idx;return}
+  loadPhoto(id,idx);
+}
+function exportHTML(){
+  const clone=document.documentElement.cloneNode(true);
+  const b=clone.querySelector('#baked'); if(b) b.textContent=JSON.stringify(OVR);
+  const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='沖繩五日自駕手冊.html';a.click();
+}
 async function loadPhoto(id,idx=0){
   const s=SPOTS[id]; if(!s.photo) return;
   const box=document.getElementById('ph-'+id); if(!box) return;
@@ -454,21 +498,17 @@ async function loadPhoto(id,idx=0){
     }
     const list=cache[id]; if(!list.length) return;
     const pick=list[idx%list.length];
-    const img=box.querySelector('img');
-    img.onload=()=>box.classList.add('on');
-    img.onerror=()=>{box.classList.remove('on');setHint(box,'圖檔載入失敗 — 按重試或點下方地圖看實景')};
-    img.src=pick.thumburl||pick.url;
-    box.querySelector('.credit').href=pick.descriptionurl||'#';
+    show(box,pick.thumburl||pick.url,pick.descriptionurl||'#');
     box.dataset.idx=idx;
   }catch(e){setHint(box,'照片載入失敗（'+e.message+'）— 點下方地圖看實景')}
 }
 function swapPhoto(id){
   const box=document.getElementById('ph-'+id);
-  loadPhoto(id,(parseInt(box.dataset.idx||0)+1));
+  applyPhoto(id,(parseInt(box.dataset.idx||0)+1));
 }
 /* 進入視窗才載入 */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){const id=e.target.dataset.id;if(SPOTS[id]&&SPOTS[id].photo){loadPhoto(id);io.unobserve(e.target)}}
+  if(e.isIntersecting){const id=e.target.dataset.id;if(SPOTS[id]&&SPOTS[id].photo){applyPhoto(id);io.unobserve(e.target)}}
 }),{rootMargin:'400px'});
 document.querySelectorAll('.card').forEach(c=>io.observe(c));
 </script>
