@@ -82,6 +82,10 @@ section.day{padding:56px 0 40px}
 .photo .swap,.photo .credit{display:none;z-index:3}
 .photo.on .swap,.photo.on .credit{display:block}
 .photo .cust{position:absolute;right:8px;top:8px;z-index:3;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.92);border:1px solid #C9C3B4;color:var(--ink);padding:3px 10px;border-radius:999px;cursor:pointer}
+.photo .hidebtn{position:absolute;left:8px;top:8px;z-index:3;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.92);border:1px solid #C9C3B4;color:var(--ink);padding:3px 10px;border-radius:999px;cursor:pointer}
+.card.hidph .photo{display:none}
+.showph{display:none;font-size:11.5px;font-family:var(--mono);background:none;border:1px dashed #B9B2A0;color:var(--mute);padding:2px 10px;border-radius:999px;cursor:pointer;margin-left:auto}
+.card.hidph .showph{display:inline-block}
 .exportbtn{position:fixed;right:18px;bottom:66px;z-index:9;background:var(--sea-deep);color:#fff;border:none;border-radius:999px;padding:10px 18px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(11,95,88,.3)}
 .photo .credit{position:absolute;right:8px;bottom:6px;font-size:10px;font-family:var(--mono);background:rgba(22,50,74,.55);color:#fff;padding:2px 8px;border-radius:999px;text-decoration:none}
 .photo .swap{position:absolute;left:8px;bottom:6px;font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.85);color:var(--ink);border:none;padding:3px 10px;border-radius:999px;cursor:pointer}
@@ -123,7 +127,7 @@ footer{padding:40px 24px 60px;text-align:center;font-family:var(--mono);font-siz
   .daydrive{margin-left:0}
 }
 @media print{
-  .printbtn,.exportbtn,.swap,.cust{display:none!important}
+  .printbtn,.exportbtn,.swap,.cust,.hidebtn,.showph{display:none!important}
   body{font-size:12.5px}
   section.day{page-break-before:always;padding:20px 0}
   .cover{min-height:auto;page-break-after:always}
@@ -371,9 +375,9 @@ function cardHTML(id){
         <circle cx="560" cy="58" r="26" fill="none" stroke="currentColor" stroke-width="3" opacity=".7"/>
       </svg>
       <div class="ph-hint"><b>${esc(s.n)}</b><span>按右上「✎ 自訂」貼上照片網址或上傳圖片・或點下方地圖看實景</span></div>
-      <img alt="${esc(s.n)}" loading="lazy"><button class="cust" onclick="customPhoto('${id}')">✎ 自訂</button><button class="swap" onclick="swapPhoto('${id}')">換一張</button><a class="credit" target="_blank" rel="noopener">Wikimedia</a></div>`:''}
+      <img alt="${esc(s.n)}" loading="lazy"><button class="hidebtn" onclick="hidePhoto('${id}',true)">✕ 隱藏照片</button><button class="cust" onclick="customPhoto('${id}')">✎ 自訂</button><button class="swap" onclick="swapPhoto('${id}')">換一張</button><a class="credit" target="_blank" rel="noopener">Wikimedia</a></div>`:''}
     <div class="cbody">
-      <div class="chead"><span class="chip" style="background:${cc}">${cn}</span><span class="cname">${esc(s.n)}</span>${s.area?`<span class="area">◎ ${s.area}</span>`:''}</div>
+      <div class="chead"><span class="chip" style="background:${cc}">${cn}</span><span class="cname">${esc(s.n)}</span>${s.area?`<span class="area">◎ ${s.area}</span>`:''}${s.photo?`<button class="showph" onclick="hidePhoto('${id}',false)">📷 顯示照片</button>`:''}</div>
       <p class="intro">${s.intro}</p>
       ${memo?`<div class="memo">${esc(memo)}</div>`:''}
       ${s.map&&MAPS[id]?`<div class="cfoot"><a class="mapbtn" href="${MAPS[id]}" target="_blank" rel="noopener">📍 Google 地圖</a><span class="tiny">點進地圖可看更多照片</span></div>`:''}
@@ -448,11 +452,22 @@ function show(box,src,creditUrl){
   const c=box.querySelector('.credit');
   if(creditUrl){c.href=creditUrl;c.style.display=''}else{c.style.display='none'}
 }
-/* 自訂照片：localStorage（GitHub Pages 上有效）＋匯出時內嵌 */
-let OVR={};
-try{OVR=JSON.parse(document.getElementById('baked').textContent||'{}')}catch(e){}
+/* 自訂照片＋隱藏狀態：localStorage（GitHub Pages 上有效）＋匯出時內嵌 */
+let OVR={},HID={};
+try{
+  const b=JSON.parse(document.getElementById('baked').textContent||'{}');
+  if(b.ovr||b.hid){OVR=b.ovr||{};HID=b.hid||{}}else{OVR=b}
+}catch(e){}
 try{Object.assign(OVR,JSON.parse(localStorage.getItem('okiPhotos')||'{}'))}catch(e){}
+try{Object.assign(HID,JSON.parse(localStorage.getItem('okiHidden')||'{}'))}catch(e){}
 function saveOVR(){try{localStorage.setItem('okiPhotos',JSON.stringify(OVR))}catch(e){alert('此環境無法儲存，請用「匯出含照片版」保存')}}
+function saveHID(){try{localStorage.setItem('okiHidden',JSON.stringify(HID))}catch(e){}}
+function hidePhoto(id,flag){
+  const card=document.querySelector('.card[data-id="'+id+'"]'); if(!card) return;
+  if(flag){HID[id]=1;card.classList.add('hidph')}
+  else{delete HID[id];card.classList.remove('hidph');applyPhoto(id,parseInt((document.getElementById('ph-'+id)||{dataset:{}}).dataset.idx||0))}
+  saveHID();
+}
 let pickTarget=null;
 document.getElementById('filepick').addEventListener('change',ev=>{
   const f=ev.target.files[0]; if(!f||!pickTarget) return;
@@ -474,7 +489,7 @@ function applyPhoto(id,idx=0){
 }
 function exportHTML(){
   const clone=document.documentElement.cloneNode(true);
-  const b=clone.querySelector('#baked'); if(b) b.textContent=JSON.stringify(OVR);
+  const b=clone.querySelector('#baked'); if(b) b.textContent=JSON.stringify({ovr:OVR,hid:HID});
   const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='沖繩五日自駕手冊.html';a.click();
 }
@@ -508,9 +523,13 @@ function swapPhoto(id){
 }
 /* 進入視窗才載入 */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){const id=e.target.dataset.id;if(SPOTS[id]&&SPOTS[id].photo){applyPhoto(id);io.unobserve(e.target)}}
+  if(e.isIntersecting){const id=e.target.dataset.id;if(SPOTS[id]&&SPOTS[id].photo&&!HID[id]){applyPhoto(id);io.unobserve(e.target)}}
 }),{rootMargin:'400px'});
-document.querySelectorAll('.card').forEach(c=>io.observe(c));
+document.querySelectorAll('.card').forEach(c=>{
+  const id=c.dataset.id;
+  if(HID[id]) c.classList.add('hidph');
+  io.observe(c);
+});
 </script>
 </body>
 </html>
