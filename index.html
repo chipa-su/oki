@@ -423,6 +423,16 @@ function jsonp(url,timeout=8000){return new Promise((res,rej)=>{
   sc.src=url+'&callback='+cb;
   document.head.appendChild(sc);
 })}
+async function apiGet(url){
+  try{
+    const r=await fetch(url+'&origin=*');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return await r.json();
+  }catch(e){
+    console.warn('[手冊] fetch 失敗，改用 JSONP：',e.message);
+    return await jsonp(url);
+  }
+}
 function setHint(box,msg){const h=box.querySelector('.ph-hint span');if(h)h.textContent=msg}
 async function loadPhoto(id,idx=0){
   const s=SPOTS[id]; if(!s.photo) return;
@@ -432,14 +442,15 @@ async function loadPhoto(id,idx=0){
       setHint(box,'照片載入中…');
       const [lat,lng]=s.photo;
       let imgs=[];
-      const geo=`https://commons.wikimedia.org/w/api.php?action=query&generator=geosearch&ggscoord=${lat}%7C${lng}&ggsradius=600&ggslimit=12&ggsnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json`;
-      try{const j=await jsonp(geo); if(j.query) imgs=Object.values(j.query.pages)}catch(e){}
+      const geo=`https://commons.wikimedia.org/w/api.php?action=query&generator=geosearch&ggscoord=${lat}%7C${lng}&ggsradius=1200&ggslimit=12&ggsnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json`;
+      try{const j=await apiGet(geo); if(j.query) imgs=Object.values(j.query.pages)}catch(e){console.warn('[手冊] geosearch 失敗',id,e)}
       if(imgs.length<2 && s.q){
         const q=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(s.q)}&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json`;
-        try{const j2=await jsonp(q); if(j2.query) imgs=imgs.concat(Object.values(j2.query.pages))}catch(e){}
+        try{const j2=await apiGet(q); if(j2.query) imgs=imgs.concat(Object.values(j2.query.pages))}catch(e){console.warn('[手冊] 關鍵字搜尋失敗',id,e)}
       }
+      console.log('[手冊]',id,'找到',imgs.length,'筆候選');
       cache[id]=imgs.map(p=>p.imageinfo&&p.imageinfo[0]).filter(i=>i&&/\.(jpe?g|png|webp)$/i.test(i.url));
-      if(!cache[id].length){setHint(box,imgs.length===0?'連不上 Wikimedia（可能被防火牆或瀏覽器擋下）— 點下方地圖看實景':'Commons 沒有這個點的照片 — 點下方地圖看實景');return}
+      if(!cache[id].length){setHint(box,imgs.length===0?'連不上 Wikimedia（看 F12 Console 訊息）— 點下方地圖看實景':'Commons 沒有這個點的照片 — 點下方地圖看實景');return}
     }
     const list=cache[id]; if(!list.length) return;
     const pick=list[idx%list.length];
